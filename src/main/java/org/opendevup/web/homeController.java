@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import scala.annotation.meta.setter;
-
 
 @Controller
 @RequestMapping(value="/home")
@@ -199,7 +197,10 @@ public class homeController {
 		diplomeRepository.save(et);
 		return "redirect:diplomes";
 	}
-	
-	
+	/*@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String login(){
+		return "login";
+	}
+	*/
 	
 }

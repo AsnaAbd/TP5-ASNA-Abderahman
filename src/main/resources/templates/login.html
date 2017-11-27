@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Authentification</title>
+    <meta name="author" content="ASNA" />
+    <!-- stylesheet css -->
+    <link rel="stylesheet" type="text/css" href="../static/libs/css/bootstrap/bootstrap.min.css" th:href="@{/libs/css/bootstrap/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../static/libs/css/bootstrap/bootstrap-theme.min.css" th:href="@{/libs/css/bootstrap/bootstrap-theme.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../static/libs/css/padding.css" th:href="@{/libs/css/padding.css}" />
+    <!-- files js -->
+    <script type="text/javascript" src="../static/libs/jquery/jquery-3.2.1.js" th:src="@{/libs/jquery/jquery-3.2.1.js}"></script>
+    <script type="text/javascript" src="../static/libs/js/bootstrap.min.js" th:src="@{/libs/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" src="../static/libs/js/filter.js" th:src="@{/libs/js/filter.js}"></script>
+    <script type="text/javascript" src="../static/libs/js/login.js" th:src="@{/libs/js/login.js}"></script>
+    <script type="text/javascript" src="../static/libs/js/studin.js" th:src="@{/libs/js/studin.js}"></script>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapse" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand" href="index">Gestion d'étudiants</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index">Acceuil</a></li>
+                    <li class="active"><a href="connectez-vous">Connectez-vous</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <h2 class="active"> Connectez-vous </h2>
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <img src="../static/img/icon.svg" id="icon" alt="User Icon" th:src="@{/img/icon.svg}" />
+
+            </div>
+            <!-- Login Form -->
+            <form th:action="@{/login}" enctype="multipart/form-data" method="post"  class="form-horizontal">
+
+                <input type="text" id="login" class="fadeIn second" name="username" placeholder="login" required="true"></input>
+                <input type="password" id="password" class="form-control" name="password" placeholder="Mot de passe" required="true" />
+                <input type="submit" class="fadeIn fourth" value="Connexion" />
+                <!-- Remind Passowrd -->
+                <div id="formFooter">
+                    <a class="underlineHover" href="#">Mot de passe oublié?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
