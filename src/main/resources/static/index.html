@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-Hello
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Liste des etudiants</title>
+    <meta name="author" content="ASNA" />
+    <!-- stylesheet css -->
+     <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+     <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css" /> 
+ 	 <link rel="stylesheet" type="text/css" href="/libs/css/padding.css" />
+ 	 <link rel="stylesheet" type="text/css" href="/libs/css/myStyle.css" />
+    <!-- files js -->
+    </head>
+<script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/libs/js/myApp.js"></script>
+
+<body ng-app="myApp">
+	<div>
+	<button ui-sref="home">Home</button>
+	<button ui-sref="chercher">chercher</button>
+	<button ui-sref="NewProduit">Nouveau Produit</button>
+	</div>
+	<div ui-view>
+		
+	</div>
+<script type="text/javascript" src="/libs/jquery/jquery-3.2.1.js" th:src="@{/libs/jquery/jquery-3.2.1.js}"></script>
+<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js" th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/libs/js/filter.js" th:src="@{/libs/js/filter.js}"></script>
+<script type="text/javascript" src="/libs/js/login.js" th:src="@{/libs/js/login.js}"></script>
+<script type="text/javascript" src="/libs/js/studin.js" th:src="@{/libs/js/studin.js}"></script>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapse" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand" href="index.html">Gestion d'étudiants</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">Acceuil</a></li>
+                    <li><a href="login">Connectez-vous</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+	
+    
+
 </body>
+
 </html>

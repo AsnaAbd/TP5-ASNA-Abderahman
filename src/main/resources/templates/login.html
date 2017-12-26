@@ -6,12 +6,12 @@
     <title>Authentification</title>
     <meta name="author" content="ASNA" />
     <!-- stylesheet css -->
-    <link rel="stylesheet" type="text/css" href="../static/libs/css/bootstrap/bootstrap.min.css" th:href="@{/libs/css/bootstrap/bootstrap.min.css}" />
-    <link rel="stylesheet" type="text/css" href="../static/libs/css/bootstrap/bootstrap-theme.min.css" th:href="@{/libs/css/bootstrap/bootstrap-theme.min.css}" />
-    <link rel="stylesheet" type="text/css" href="../static/libs/css/padding.css" th:href="@{/libs/css/padding.css}" />
+    <link rel="stylesheet" type="text/css" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/node_modules/bootstrap/dist/css/bootstrap-theme.min.css" th:href="@{/node_modules/bootstrap/dist/css/bootstrap-theme.min.css}" /> 
+    <link rel="stylesheet" type="text/css" href="../static/libs/css/padding.css" th:href="@{/libs/css/padding.css}"/>
     <!-- files js -->
     <script type="text/javascript" src="../static/libs/jquery/jquery-3.2.1.js" th:src="@{/libs/jquery/jquery-3.2.1.js}"></script>
-    <script type="text/javascript" src="../static/libs/js/bootstrap.min.js" th:src="@{/libs/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" src="../static/node_modules/bootstrap/dist/js/bootstrap.min.js" th:src="@{/node_modules/bootstrap/dist/js/bootstrap.min.js}"></script>
     <script type="text/javascript" src="../static/libs/js/filter.js" th:src="@{/libs/js/filter.js}"></script>
     <script type="text/javascript" src="../static/libs/js/login.js" th:src="@{/libs/js/login.js}"></script>
     <script type="text/javascript" src="../static/libs/js/studin.js" th:src="@{/libs/js/studin.js}"></script>
@@ -33,8 +33,8 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="index">Acceuil</a></li>
-                    <li class="active"><a href="connectez-vous">Connectez-vous</a></li>
+                    <li><a href="index.html">Acceuil</a></li>
+                    <li class="active"><a href="login">Connectez-vous</a></li>
                 </ul>
             </div>
         </div>
@@ -51,9 +51,16 @@
             </div>
             <!-- Login Form -->
             <form th:action="@{/login}" enctype="multipart/form-data" method="post"  class="form-horizontal">
-
-                <input type="text" id="login" class="fadeIn second" name="username" placeholder="login" required="true"></input>
-                <input type="password" id="password" class="form-control" name="password" placeholder="Mot de passe" required="true" />
+				
+				 <div class="form-group ">
+                            <div class="col-sm-9 col-md-offset-2">
+                             <input type="username"  class="form-control col-sm-11" name="username" placeholder="login" required="true"></input>
+                  </div></div>
+                 <div class="form-group">
+                 <div class="col-sm-9 col-md-offset-2">
+               			 <input type="password"  class="form-control col-sm-11" name="password" placeholder="Mot de passe" required="true" />
+                  </div>
+                  </div>
                 <input type="submit" class="fadeIn fourth" value="Connexion" />
                 <!-- Remind Passowrd -->
                 <div id="formFooter">

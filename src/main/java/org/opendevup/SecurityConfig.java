@@ -36,14 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/libs/css/**","/libs/js/**","/libs/jquery/**","/img/**").permitAll()
+			.antMatchers("/libs/css/**","/libs/js/**","/libs/jquery/**","/img/**","/iindex.html/**").permitAll()
 				.anyRequest()
 					.authenticated()
 						.and()
 			.formLogin()
 				.loginPage("/login")
 					.permitAll()
-			.defaultSuccessUrl("/home/index");
+			.defaultSuccessUrl("/profiles.html");
 			
 	}
 }

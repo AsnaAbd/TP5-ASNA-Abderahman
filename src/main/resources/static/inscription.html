@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inscription</title>
+  <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  </head>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="/libs/js/myApp.js"></script>
+
+<body ng-app="myApp" ng-controller="InscriptionController">
+	<div class="col-md-6 col-sm-6 col-xs-12 spacer">
+		<div class="panel panel-info">
+			<div class="panel-heading">Inscription d'un étudiant</div>
+			<div class="panel-body">
+			<div ng-if="mode.value=='form'">
+		
+				<form>
+					<div class="form-group">
+						<label  class="control-label">Nom:</label>
+						<input class="form-control" type="text"  ng-model="etudiant.nom" />
+					 	<span ng-if="errors" class="alert-danger">{{errors.nom}}</span>
+					</div>
+					<div class="form-group">
+						<label  class="control-label">Prénom:</label>
+						<input class="form-control" type="text"  ng-model="etudiant.prenom" />
+					 	<span ng-if="errors" class="alert-danger" >{{errors.prenom}}</span>
+					</div>
+					<div class="form-group">
+						<label  class="control-label">Date Naissance:</label>
+						<input class="form-control" type="date"  ng-model="etudiant.dateNaissance" />
+					 	<span ng-if="errors" class="alert-danger" >{{errors.nom}}</span>
+					</div>
+					<div>
+						<button  class="btn btn-primary" ng-click="saveEtudiant()"> Save</button>
+					</div>
+				</form>
+			</div>
+				<div ng-if="mode.value=='confirm'" class="panel-heading">Confirmation : l'étudiant a  été inscrit avecc succès</div>
+				<div ng-if="mode.value=='confirm'">
+					<div class="form-group">
+					<label class="control-label">ID:</label>
+					<label class="control-label">{{etudiant.id}}</label>
+					</div>
+					<div class="form-group">
+					<label class="control-label">Nom:</label>
+					<label class="control-label">{{etudiant.nom}}</label>
+					</div>
+					<div class="form-group">
+					<label class="control-label">Prénom:</label>
+					<label class="control-label">{{etudiant.prenom}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>  
+
+
+</body>
+</html>

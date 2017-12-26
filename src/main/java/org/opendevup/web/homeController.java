@@ -1,4 +1,4 @@
-package org.opendevup.web;
+/*package org.opendevup.web;
 
 import java.awt.PageAttributes.MediaType;
 import java.io.File;
@@ -51,10 +51,10 @@ public class homeController {
 		model.addAttribute("pageEtudiants", pageEtudiants);
 		return "index";
 	}
-	@RequestMapping(value="/connectez-vous")
+	@RequestMapping(value="/login")
 	public String connect(Model model,@RequestParam(name="page", defaultValue="0") int p,
 			@RequestParam(name="motCle", defaultValue="") String mc) {
-		return "connectez-vous";
+		return "login";
 	}
 	
 	@RequestMapping(value="/createProfil")
@@ -197,10 +197,11 @@ public class homeController {
 		diplomeRepository.save(et);
 		return "redirect:diplomes";
 	}
-	/*@RequestMapping(value="/login",method=RequestMethod.GET)
+	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String login(){
 		return "login";
 	}
-	*/
+	
 	
 }
+*/

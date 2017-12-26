@@ -26,6 +26,7 @@ public class UserRestService {
 	public List<User> findAll(){
 		return userRepository.findAll();
 	}
+	
 	@RequestMapping(value="/addRole")
 	public Role saveRole(Role r){
 		return RoleRepository
@@ -36,6 +37,7 @@ public class UserRestService {
 	public List<Role> findRoles(){
 		return RoleRepository.findAll();
 	}
+	
 	@RequestMapping(value="addRoleToUser")
 	public User addRoleToUser(String username,String  role){
 		User u=userRepository.findOne(username);

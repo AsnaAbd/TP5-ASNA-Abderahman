@@ -19,12 +19,11 @@ public class Etudiant implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(name="NOM",length=20)
 	@NotEmpty
 	private String nom;
 	@NotEmpty
 	private String prenom;
-	@NotEmpty
+	/*@NotEmpty*/
 	private String titreposte;
 	@Email
 	private String email;

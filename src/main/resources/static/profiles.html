@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Liste des etudiants</title>
+    <meta name="author" content="ASNA" />
+    <!-- stylesheet css -->
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css" /> 
+    <link rel="stylesheet" type="text/css" href="./libs/css/padding.css" />
+</head>
+
+<body ng-app="myApp" ng-controller="MyController">
+ <!-- files js -->
+<script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="/libs/js/myApp.js"></script>
+<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/libs/jquery/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="/libs/js/filter.js"></script>
+<script type="text/javascript" src="/libs/js/studin.js"></script>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapse" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand" href="#">Espace Administrateur</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Profils</a></li>
+                    <li><a href="createProfil.html">Ajouter un profil</a></li>
+                    <li><a href="diplomes.html">Diplômes</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-group">
+            <form th:action="@{profiles}" method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="motCle" th:value="${motCle}" placeholder="Rechercher" />
+                    <button type="submit" class="btn btn-primary">Chercher</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="table-responsive">
+            <table name="mytable" class="table table-striped">
+                <h3 align="left"> Liste des étudiants</h3>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Titre du poste</th>
+                        <th>Email</th>
+                        <th>Diplômes</th>
+                        <th>Compétences clés</th>
+                        <th>Promotion</th>
+                        <th>Expériences</th>
+                        <th>photo</th>
+                      <!--   <th>Actions</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="e in pageEtudiants.data">
+                       
+                        <td> {{e.nom}}</td>
+                        <td> {{e.prenom}}</td>
+                        <td> {{e.titreposte}}</td>
+                        <td> {{e.email}}</td>
+                        <td> {{e.diplome}}</td>
+                        <td> {{e.competencesCles}}</td>
+                        <td> {{e.promotion}}</td>
+                        <td> {{e.experience}}</td>
+                        <td><img th:src="@{getPhoto(id=${e.id})}" with="100" height="100"></img>
+                        </td>
+                        <td><a th:href="@{modifier(id=${e.id})}" class="btn btn-info">Modifier</a></td>
+                        <td><a onclick="return confirm('Etes vous de sure de supprimer')"  ng-click="deleteEtudiant(id=${e.id})" class="btn btn-danger">Supprimer</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul class="nav nav-pills">
+                <li ng-class="{active:$index==pageCourante}" ng-repeat="p in pages track by $index">
+                	<a ng-click="gotoPage($index)">{{$index}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <nav class="footer">
+            <a class="navbar-brand" href="#" align="center">Copyright 2017/2018</a>
+        </nav>
+
+    </div>
+
+</body>
+
+</html>
