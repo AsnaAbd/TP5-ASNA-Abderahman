@@ -10,8 +10,9 @@
     <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css" /> 
 </head>
 
-<body>
-
+<body ng-app="myApp" ng-controller="etudiantController">
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="/libs/js/myApp.js"></script>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -36,49 +37,45 @@
     </nav>
     <br/><br/><br/><br/>
 
-    <div class="container">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-9">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Edition de profil</div>
-                    <br />
+     <div class="container">
 
-                    <form th:action="@{UpdateEtudiant}" enctype="multipart/form-data" method="post" th:object="${etudiant}" class="form-horizontal">
-                        <input type="hidden" th:field="*{id}" name="nom" class="form-control" />
-                        <span class="text-danger" th:errors="*{id}"></span>
-
+        <div class="col-sm-offset-2 col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Edition de profil</div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="nom">Nom:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{nom}" name="nom" class="form-control" />
-                                <span class="text-danger" th:errors="*{nom}"></span> </div>
-                        </div>
+                                <input class="form-control" type="text"  ng-model="etudiant.nom" />
+					 			<span ng-if="errors" class="alert-danger">{{errors.nom}}</span>
+                        </div></div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="nom">Prénom:</label>
+                            <label class="control-label col-sm-2" for="prenom">Prénom:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{prenom}" name="prenom" class="form-control" />
-                                <span class="text-danger" th:errors="*{prenom}"></span> </div>
-                        </div>
+                                   <input class="form-control" type="text"  ng-model="etudiant.prenom"/>
+					 			   <span ng-if="errors" class="alert-danger">{{errors.prenom}}</span>
+                        </div></div><br/>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="nom">Titre du poste:</label>
+                            <label class="control-label col-sm-2" for="titreposte">Titre du poste:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{titreposte}" name="titreposte" class="form-control" />
-                                <span class="text-danger" th:errors="*{titreposte}"></span> </div>
-                        </div>
+                                <input class="form-control" type="text"  ng-model="etudiant.titreposte" />
+					 			<span ng-if="errors" class="alert-danger">{{errors.titreposte}}</span>
+                        </div></div>
                         <div class="form-group">
                             <label class="control-label col-sm-2">Email:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{email}" name="email" class="form-control" />
-                                <span class="text-danger" th:errors="*{email}"></span> </div>
-                        </div>
+                                 <input class="form-control" type="text"  ng-model="etudiant.email" />
+					 			<span ng-if="errors" class="alert-danger">{{errors.email}}</span>
+                        </div></div>
                         <div class="form-group">
                             <label class="control-label col-sm-2">competencesCles:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{competencesCles}" name="competencesCles" class="form-control" />
-                                <span class="text-danger" th:errors="*{competencesCles}"></span> </div>
-                        </div>
+                                <input class="form-control" type="text"  ng-model="etudiant.competencesCles" />
+					 			<span ng-if="errors" class="alert-danger">{{errors.competencesCles}}</span>
+                        </div></div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="diplome">Diplômes:</label>
+                            <label class="control-label col-sm-2">Diplômes:</label>
                             <div class="col-sm-7">
                                 <input type="checkbox" name="diplome" value="bac2" th:checked="${true}" />BTS/DUT/DEUG/BAC+2 <br />
                                 <input type="checkbox" name="diplome" value="bac3" />Licence/BAC+3 <br />
@@ -88,10 +85,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="pwd">Promotion:</label>
+                            <label class="control-label col-sm-2">Promotion:</label>
                             <div class="col-sm-7">
-                                <select class="form-control" th:field="*{promotion}">
-                          		<option name="promotion" value="0">Choisir promotion</option>
+                                <select class="form-control" ng-model="etudiant.promotion" >
+                          		<option name="promotion" value="2000">Choisir promotion</option>
                           		<option name="promotion" value="2010">2010</option>   <option name="promotion" value="2011">2011</option>
                           		<option name="promotion" value="2012">2012</option>   <option name="promotion" value="2013">2013</option>
                           		<option name="promotion" value="2014">2014</option>   <option name="promotion" value="2015">2015</option>
@@ -104,33 +101,27 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2">Expériences:</label>
                             <div class="col-sm-7">
-                                <textarea class="form-control" th:field="*{experience}" name="experience" rows="3" cols="6" id="comment" placeholder="Expériences professionnelles"></textarea>
-                                <span class="text-danger" th:errors="*{experience}"></span> </div>
-                        </div>
+                                <textarea class="form-control" ng-model="etudiant.experience"  name="experience" rows="3" cols="6" id="comment" placeholder="Expériences professionnelles"></textarea>
+               		 			<span ng-if="errors" class="alert-danger">{{errors.experience}}</span>
+                        </div></div>
+
                         <div class="form-group">
                             <label class="control-label col-sm-2">Photo:</label>
                             <div class="col-sm-7">
                                 <input type="file" name="picture" class="form-control" />
                                 <span class="text-danger" th:errors="*{photo}"></span>
                             </div>
-                            <td><img th:src="@{getPhoto(id=${etudiant.id})}" with="100" height="100"></img>
-                            </td>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-8">
-                                <button type="submit" class="btn btn-primary col-sm-offset-7 "> Modifier</button>
+                            <div class="col-sm-7">
+                                <button class="btn btn-primary col-sm-offset-7 " ng-click="updateEtudiant(e.id)">Modifier</button>
                             </div>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
-
-
-
-
 
 </body>
 

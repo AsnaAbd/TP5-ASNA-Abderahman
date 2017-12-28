@@ -16,15 +16,7 @@
 <script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="/libs/js/myApp.js"></script>
 
-<body ng-app="myApp">
-	<div>
-	<button ui-sref="home">Home</button>
-	<button ui-sref="chercher">chercher</button>
-	<button ui-sref="NewProduit">Nouveau Produit</button>
-	</div>
-	<div ui-view>
-		
-	</div>
+<body ng-app="myApp" ng-controller="etudiantController">
 <script type="text/javascript" src="/libs/jquery/jquery-3.2.1.js" th:src="@{/libs/jquery/jquery-3.2.1.js}"></script>
 <script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js" th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script type="text/javascript" src="/libs/js/filter.js" th:src="@{/libs/js/filter.js}"></script>
@@ -51,6 +43,60 @@
         </div>
     </nav>
 	
+    
+    <div class="container">
+        <div class="form-group">
+            <form th:action="@{Index}" method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="motCle" ng-model="motCle" placeholder="Rechercher" />
+                    <button ng-click="getEtudiants()" class="btn btn-primary">Chercher</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="table-responsive">
+            <table name="mytable" class="table table-striped">
+                <h3 align="left"> Liste des étudiants</h3>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Titre du poste</th>
+                        <th>Email</th>
+                        <th>Diplômes</th>
+                        <th>Compétences clés</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  	<tr ng-repeat="e in pageEtudiants">
+                        <td>{{e.nom}}</td>
+                        <td>{{e.prenom}}</td>
+                        <td>{{e.titreposte}}</td>
+                        <td>{{e.email}}</td>
+                        <td>{{e.diplome}}</td>
+                        <td>{{e.competencesCles}}</td>
+                        <!-- <td th:text="${e.photo}"></td> -->
+                        <td><img class="img-circle" th:src="@{getPhoto(id=${e.id})}" with="100" height="100"></img>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+			<div class="container">
+            <ul class="nav nav-pills">
+                <li ng-class="{active:$index==pageCourante}" ng-repeat="p in pages track by $index" class="clickable">
+                    <a ng-click="gotoPage($index)">{{$index}}</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+
+        <nav class="footer">
+            <a class="navbar-brand" href="#" align="center">Copyright 2017/2018</a>
+        </nav>
+
+    </div>
     
 
 </body>

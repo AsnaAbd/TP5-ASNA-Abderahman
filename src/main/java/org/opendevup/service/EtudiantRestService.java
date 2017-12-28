@@ -42,18 +42,16 @@ public class EtudiantRestService {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
 
-	
-		
-	@RequestMapping(value="/etudiants",method=RequestMethod.GET)
-	public Page<Etudiant> listEtudiants(int page,int size){
-		return etudiantRepository.findAll(new PageRequest(page, size));
-	}
-	
 	@RequestMapping(value="/chercherEtudiants",method=RequestMethod.GET)
 	public Page<Etudiant> chercher(String mc,
 			@RequestParam(name="page",defaultValue="0")int page,
 			@RequestParam(name="size",defaultValue="5")int size){
 		return etudiantRepository.chercherEtudiants("%"+mc+"%", new PageRequest(page, size));
+	}
+	
+	@RequestMapping(value="/listEtudiants",method=RequestMethod.GET)
+	public List <Etudiant> listEtudiants(){
+		return etudiantRepository.findAll();
 	}
 	
 	@RequestMapping(value="/etudiants/{id}",method=RequestMethod.GET)
@@ -62,9 +60,16 @@ public class EtudiantRestService {
 	}
 	
 	@RequestMapping(value="/etudiants/{id}",method=RequestMethod.DELETE)
-	public void deleteEtudiant(@PathVariable ("id")Long id){
+	public void deleteEtudiant(@PathVariable Long id){
 		etudiantRepository.delete(id);
 	}
+	
+	@RequestMapping(value="/etudiants/{id}",method=RequestMethod.PUT)
+	public Etudiant updateEtudiant(@RequestBody Etudiant e,@PathVariable ("id")Long id){
+		e.setId(id);
+		return etudiantRepository.saveAndFlush(e);
+	}
+	
 	@Secured(value={"ROLE_ADMIN","ROLE_SCOLARITE","ROLE_ETUDIANT"})
 	@RequestMapping(value="/getLogedUser")
 	public Map<String, Object> getLogedUser(HttpServletRequest
@@ -94,26 +99,9 @@ public class EtudiantRestService {
 			return  errors;
 		}
 		return etudiantRepository.save(e);
-		// return "redirect:profiles.html";
 	}
 	
-	/*@RequestMapping(value="/iindex")
-	public String Index(Model model,@RequestParam(name="page", defaultValue="0") int p,
-									@RequestParam(name="motCle", defaultValue="") String mc) {
-		Page<Etudiant> pageEtudiants=etudiantRepository.chercherEtudiants("%"+mc+"%", new PageRequest(p, 5));
-		int pagesCount=pageEtudiants.getTotalPages();
-		int[] pages=new int[pagesCount];
-		for(int i=0;i<pagesCount;i++) pages[i]=i;
-		model.addAttribute("pages", pages);
-		model.addAttribute("pageEtudiants", pageEtudiants);
-		model.addAttribute("pageCourante", p);
-		model.addAttribute("motCle", mc);
-		
-		model.addAttribute("pageEtudiants", pageEtudiants);
-		return "index";
-	}*/
-	
-	@RequestMapping(value="/UpdateEtudiant",method=RequestMethod.POST)
+	@RequestMapping(value="/updateEtudiant",method=RequestMethod.POST)
 	public String update(@Valid Etudiant et,BindingResult bindingResult,
 			@RequestParam(name="picture")MultipartFile file) throws Exception{
 		
@@ -149,7 +137,7 @@ public class EtudiantRestService {
 		return "redirect:profiles";
 	}*/
 	
-	@RequestMapping(value="/profiless")
+	/*@RequestMapping(value="/profiless")
 	public String profiles(Model modelp,@RequestParam(name="page", defaultValue="0") int p,
 			@RequestParam(name="motCle", defaultValue="") String mc) {
 			Page<Etudiant> Etudiants=etudiantRepository.chercherEtudiants("%"+mc+"%", new PageRequest(p, 5));
@@ -164,13 +152,8 @@ public class EtudiantRestService {
 			modelp.addAttribute("Etudiants", Etudiants);
 		
 		return "profiles";
-	}
+	}*/
 	
-	@RequestMapping(value="/supprimer")
-	public String supprimer(Long id){
-		etudiantRepository.delete(id);
-		return "redirect:profiles";
-	}
 	
 	@RequestMapping(value="/modifier")
 	public String modifier(Long id,Model  model){

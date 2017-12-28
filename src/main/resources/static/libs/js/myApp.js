@@ -1,11 +1,10 @@
-var myApp=angular.module("myApp", ['ui.router','ngRoute']);
+var myApp=angular.module("myApp", []);
 
-myApp.config(['$locationProvider', function($locationProvider) {
-	  $locationProvider.hashPrefix('');
-	}]);
-
-myApp.config(function($stateProvider,$urlRouterProvider){
-	$stateProvider.hashPrefix('');
+myApp.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+/*myApp.config(function($stateProvider,$urlRouterProvider){
+	
 	$stateProvider.state('home',{
 		url:'/home',
 		templateUrl:'views/home.html',
@@ -18,70 +17,94 @@ myApp.config(function($stateProvider,$urlRouterProvider){
 	});
 	$stateProvider.state('newEtudiant',{
 		url:'/newEtudiant',
-		templateUrl:'views/NewEtudiant.html',
-		controller:'NewEtudiantController'
+		templateUrl:'views/newEtudiant.html',
+		controller:'newEtudiantController'
 	});
-});
+});*/
 
 myApp.controller('HomeController', function(){
 	
 });
 
-myApp.controller('NewEtudiantController', function(){
+myApp.controller('newEtudiantController', function(){
 	
 });
-myApp.controller("MyController", function($scope,$http) {
+
+myApp.controller("etudiantController", function($scope,$http,$location) {
 	$scope.pageEtudiants=null;
+	$scope.etudiant={};
 	$scope.motCle="";
 	$scope.pageCourante=0;
-	$scope.size=3;
+	$scope.size=2;
 	$scope.pages=[];
 	
-	/*	$http.get("http://localhost:8092/etudiants")
-	.then(function(data) {
-		$scope.pageEtudiants=data;
-		console.log($scope.pageEtudiants);
-	}, function(err) {
-		console.log(err)
-	});	*/
+	$http.get("http://localhost:8092/listEtudiants")
+		.then(function(data) {
+			$scope.chercherEtudiants();
+		}, function(err) {
+			console.log(err)
+		});	
 	
-$scope.chercherEtudiants=function(){
-	$http.get("http://localhost:8092/chercherEtudiants?mc="+$scope.motCle+"&page="+$scope.pageCourante+"&size="+$scope.size)
-	.then(function(data) {
-		$scope.pageEtudiants=data.data;
-		$scope.pages=new Array(data.totalPages);
-		console.log($scope.pageEtudiants);
-	}, function(err) {
+	$scope.chercherEtudiants=function(){
+		$http.get("http://localhost:8092/chercherEtudiants?mc="+$scope.motCle+"&page="+$scope.pageCourante+"&size="+$scope.size)
+		.then(function(data) {
+		$scope.pageEtudiants=data.data.content;
+		$scope.pages=new Array(data.data.totalPages);
+		console.log("chercherEtudiants",$scope.pageEtudiants);
+		}, function(err) {
 		console.log(err)
-	});
-};
+		});
+	};
+	$scope.getEtudiant=function(id){
+		$http.get("etudiants/"+id)
+		.then(function(data) {
+			$scope.etudiant=data.data;
+			console.log("myStudent",data.data)
+		})
+		$location.path("editProfil.html").replace();
+	};
+	$scope.deleteEtudiant=function(id){
+		$http.delete("etudiants/"+id)
+		.then(function(data) {
+		if(!data.data.errors){
+			$scope.etudiant=data.data;
+			console.log('delete',data);
+			$scope.errors=null;
+			$scope.mode.value="confirm";
+		}else {
+			$scope.errors=data.data;
+			$scope.etudiant=null;
+		}		
+		});
+	};
+	$scope.updateEtudiant=function(id){
+		/*$http.put("/etudiants/"+id)
+		.then(function(data){
+			if(!data.data.errors){
+				$scope.etudiant=data.data;
+				$scope.errors=null;
+				// $scope.mode.value="confirm";
+			}else {
+				$scope.errors=data.data;
+				$scope.etudiant=null;
+			}		
+		})*/
+	};
+	
 	$scope.getEtudiants = function(){
 		$scope.pageCourante=0;
 		$scope.chercherEtudiants();
-	}
-	$scope.gotopage=function(p){
+	};
+		
+	$scope.gotoPage=function(p){
 		$scope.pageCourante=p;
 		$scope.chercherEtudiants();
-	}
-});
-
-myApp.controller("listEtudiantController", function($scope,$http) {
-	$scope.pageEtudiants=null;
-	$scope.pageCourante=0;
-	$scope.size=3;
-	
-	$scope.listEtudiants=function(){
-		$http.get("etudiants?page="+$scope.pageCourante+"&size="+$scope.size)
-			.then(function(value) {
-				$scope.pageEtudiants=value;
-				console.log("=======value1========"+value)
-			});
 	};
-	$scope.listEtudiants();
-});
+/*});*/
 
-myApp.controller("InscriptionController", function($scope,$http){
-	$scope.etudiant={};
+
+/*myApp.controller("InscriptionController", function($scope,$http){*/
+	/*$scope.etudiant={};*/
 	$scope.errors=null;
 	$scope.mode={value:"form"}
 	
