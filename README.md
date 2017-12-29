@@ -21,7 +21,7 @@ http://localhost:8092/login
 # Gestion de la sécurité 
 1. Pour vous connecter la première fois vous devez ajouter des utilisateurs dans la table users par exemple :
 
-	username : admin     
+	username : admin
 	password :123
 	actived : 1 
 	username : et1
@@ -37,7 +37,7 @@ http://localhost:8092/login
 	INVITE
 3. Dans la table users_role affectez les roles aux utilisateurs par exemple:
 
-user_username	 roles_role
+user_username	 roles_role :
 admin 			 ADMIN
 et1 			 ETUDIANT
 inv1			 INVITE

@@ -134,7 +134,7 @@ app.controller("etudiantController", function($scope,$http,$location) {
 	$scope.etudiant={};
 	$scope.motCle="";
 	$scope.pageCourante=0;
-	$scope.size=4;
+	$scope.size=6;
 	$scope.pages=[];
 	$scope.errors=null;
 	$scope.mode={value:"form"}
