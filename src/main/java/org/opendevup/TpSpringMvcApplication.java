@@ -12,6 +12,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import com.thoughtworks.xstream.mapper.SystemAttributeAliasingMapper;
+
 @SpringBootApplication
 public class TpSpringMvcApplication {
 
@@ -23,7 +25,8 @@ public class TpSpringMvcApplication {
 		diplomeRepository.save(new Diplome("Master GL", "bac+5", "AS","WEB"));*/
 					
 		List<Etudiant> etds=etudaintRepository.findAll();
-		
+		List<Diplome> dps=diplomeRepository.findAll();
 		etds.forEach(e->System.out.println(e.getNom()));
+		dps.forEach(e->System.out.println(e.getNomDiplome()));
 	}
 }

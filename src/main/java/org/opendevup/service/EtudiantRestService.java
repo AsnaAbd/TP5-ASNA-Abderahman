@@ -162,14 +162,5 @@ public class EtudiantRestService {
 		return "editProfil";
 	}
 	
-	@RequestMapping(value="/getPhoto", produces=org.springframework.http.MediaType.IMAGE_JPEG_VALUE)
-	@ResponseBody
-	public byte[] getPhoto(Long id) throws Exception {
-		System.out.println("--------------ana------------------------");
-		System.out.println("--------------"+id+"---------------");
-		File f=new File(imageDir+id);
-		
-		return IOUtils.toByteArray(new FileInputStream(f));
-		}
 
 }

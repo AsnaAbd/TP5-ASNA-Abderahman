@@ -7,11 +7,15 @@
     <meta name="author" content="ASNA" />
     <!-- stylesheet css -->
       <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap-theme.min.css" /> 
    
 </head>
 
-<body>
-
+<body ng-app="app">
+<script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="/libs/js/app.js"></script>
+<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/libs/jquery/jquery-3.2.1.js"></script>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -37,37 +41,37 @@
         </div>
     </nav>
     <br/><br/><br/>
-    <div class="container">
+    <div class="container" ng-controller="inscriptionController">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter un Diplôme</div>
                 <div class="panel-body">
-                    <form th:action="@{SaveDiplome}" enctype="multipart/form-data" method="post" th:object="${diplome}" class="form-horizontal">
+                    <form class="form-horizontal">
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="Niveau">Nom Diplôme:</label>
                             <div class="col-sm-8">
-                                <input type="text" th:field="*{nomDiplome}" name="nomDiplome" class="form-control" />
-                                <span class="text-danger" th:errors="*{nomDiplome}"></span>
+                                <input class="form-control" type="text"  ng-model="diplome.nomDiplome" />
+					 			<span ng-if="errors" class="alert-danger">{{errors.nomDiplome}}</span>
                             </div>
                         </div>
                         <div class="form-group">
 
                             <label class="control-label col-sm-2" for="Niveau">Niveau:</label>
                             <div class="col-sm-8">
-                                <select class="form-control" th:field="*{niveau}">
-        		<option name="niveau" value="Bac+1">Bac+1</option>
-        		<option name="niveau" value="Bac+2/DUT">Bac+2/DUT</option>
-        		<option name="niveau" value="Bac+3/Licence">Bac+3/Licence</option>
-        		<option name="niveau" value="Bac+4/Maitrise">Bac+4/Maitrise </option>
-        		<option name="niveau" value="Bac+5/Master">Bac+5/Master</option>
-    		</select>
+                                <select class="form-control" ng-model="diplome.niveau">
+        							<option name="niveau" value="Bac+1">Bac+1</option>
+        							<option name="niveau" value="Bac+2/DUT">Bac+2/DUT</option>
+        							<option name="niveau" value="Bac+3/Licence">Bac+3/Licence</option>
+        							<option name="niveau" value="Bac+4/Maitrise">Bac+4/Maitrise </option>
+        							<option name="niveau" value="Bac+5/Master">Bac+5/Master</option>
+    							</select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="Spécialité">Spécialité:</label>
                             <div class="col-sm-8">
-                                <select class="form-control" th:field="*{specialite}">
+                                <select class="form-control" ng-model="diplome.specialite">
                     <option  value="Génie Logiciel">Génie Logiciel</option>
                     <option  value="Ingénierie des systèmes informatique">Ingénierie des systèmes informatique</option>   
                     <option  value="Résaux et systèmes">Résaux et systèmes</option>   
@@ -78,12 +82,12 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="Déscription">Déscription:</label>
                             <div class="col-sm-8">
-                                <textarea th:field="*{description}" name="description" class="form-control" rows="3"></textarea>
-                                <span class="text-danger" th:errors="*{description}"></span>
+                                <textarea ng-model="diplome.description" name="description" class="form-control" rows="3"></textarea>
+                                <span ng-if="errors" class="alert-danger">{{errors.description}}</span>
                             </div>
                         </div>
                         <div class="col-sm-8">
-                            <button type="submit" class="btn btn-primary col-sm-offset-7 "> Créer</button>
+                            <button ng-click="saveDiplome()" target="_self" class="btn btn-primary col-sm-offset-7 "> Créer</button>
                         </div>
                     </form>
                 </div>
@@ -91,7 +95,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" ng-controller="diplomeController">
         <div class="table-responsive">
             <table name="mytable" class="table table-striped">
                 <h3 align="left"> Liste des diplomes</h3>
@@ -105,20 +109,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="e:${pageDiplomes.content}">
-                        <td th:text="${e.nomDiplome}"></td>
-                        <td th:text="${e.niveau}"></td>
-                        <td th:text="${e.specialite}"></td>
-                        <td th:text="${e.description}"></td>
-                        <td><a th:href="@{modifierDiplome(id=${e.id})}" class="btn btn-info">Modifier</a>
-                        <a onclick="return confirm('Etes vous de sure de supprimer')" th:href="@{supprimerDiplome(id=${e.id})}" class="btn btn-danger">Supprimer</a></td>
+                    <tr ng-repeat="dp in pageDiplomes">
+                    	
+                        <td>{{dp.nomDiplome}}</td>
+                        <td>{{dp.niveau}}</td>
+                        <td>{{dp.specialite}}</td>
+                        <td>{{dp.description}}</td>
+                        <td><a ng-click="updateDiplome(dp.id)" class="btn btn-info glyphicon glyphicon-edit">Modifier</a>
+                        <a onclick="return confirm('Etes vous de sure de supprimer')" ng-click="deleteDiplome(dp.id); getDiplomes()" class="btn btn-danger glyphicon glyphicon-remove">Supprimer</a></td>
 
                     </tr>
                 </tbody>
             </table>
-            <ul class="nav nav-pills">
-                <li th:each="p:${pages}" th:class="${p==pageCourante}?active:''">
-                    <a th:text="${p}" th:href="@{diplomes(page=${p},motCle=${motCle})}"></a>
+           <ul class="nav nav-pills">
+                <li ng-class="{active:$index==pageCourante}" ng-repeat="p in pages track by $index" class="clickable">
+                    <a ng-click="gotoPage($index)">{{$index}}</a>
                 </li>
             </ul>
         </div>

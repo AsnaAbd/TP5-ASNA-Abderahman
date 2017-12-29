@@ -3,106 +3,89 @@ package org.opendevup.service;
 import java.awt.PageAttributes.MediaType;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.opendevup.dao.DiplomeRepository;
-import org.opendevup.dao.EtudiantRepository;
 import org.opendevup.entities.Diplome;
-import org.opendevup.entities.Etudiant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 
-@Controller
+@RestController
 public class DiplomeRestService {
-	
+
 	@Autowired
 	private DiplomeRepository diplomeRepository;
-		
-	/*@RequestMapping(value="/createProfil")
-	public String createProfil() {
-		return "createProfil";
-	}*/
-	
-/*	@RequestMapping(value="/createProfillll",method=RequestMethod.GET)
-	public String fromEtudiant(Model model){
-		model.addAttribute("etudiant", new Etudiant());
-		return "createProfil";
-	}*/
-	
-	
-	@RequestMapping(value="/UpdateDiplome",method=RequestMethod.POST)
-	public String update(@Valid Diplome et,BindingResult bindingResult) throws Exception{
-		
-		if(bindingResult.hasErrors()){
-			return "editDiplome";
-		}
-		diplomeRepository.save(et);
-		
-		return "redirect:diplomes";
+	@Secured(value={"ROLE_ADMIN","ROLE_SCOLARITE","ROLE_ETUDIANT"})
+	@RequestMapping(value="/chercherDiplomes",method=RequestMethod.GET)
+	public Page<Diplome> chercher(String mc,
+			@RequestParam(name="page",defaultValue="0")int page,
+			@RequestParam(name="size",defaultValue="5")int size){
+		return diplomeRepository.chercherDiplomes("%"+mc+"%", new PageRequest(page, size));
 	}
 	
-	@RequestMapping(value="/consulterProfil")
-	public String consulterProfil() {
-		return "consulterProfil";
+	@RequestMapping(value="/listDiplomes",method=RequestMethod.GET)
+	public List <Diplome> listDiplomes(){
+		return diplomeRepository.findAll();
 	}
 	
-	
-	@RequestMapping(value="/diplomess")
-	public String diplomes(Model model,Model model1,@RequestParam(name="page", defaultValue="0") int p,
-									@RequestParam(name="motCle", defaultValue="") String mc) {
-		Page<Diplome> pageDiplomes=diplomeRepository.chercherDiplomes("%"+mc+"%", new PageRequest(p, 5));
-		int pagesCount=pageDiplomes.getTotalPages();
-		int[] pages=new int[pagesCount];
-		for(int i=0;i<pagesCount;i++) pages[i]=i;
-		model.addAttribute("pages", pages);
-		model.addAttribute("pageDiplomes", pageDiplomes);
-		model.addAttribute("pageCourante", p);
-		model.addAttribute("motCle", mc);
-		
-		model.addAttribute("pageDiplomes", pageDiplomes);
-		model1.addAttribute("diplome", new Diplome());
-		return "diplomes";
+	@RequestMapping(value="/diplomes/{id}",method=RequestMethod.GET)
+	public Diplome getDiplome(@PathVariable Long id){
+		return diplomeRepository.findOne(id);
 	}
 	
-	
-	
-	@RequestMapping(value="/supprimerDiplome")
-	public String supprimerDiplome(Long id){
+	@RequestMapping(value="/diplomes/{id}",method=RequestMethod.DELETE)
+	public void deleteDiplome(@PathVariable Long id){
 		diplomeRepository.delete(id);
-		return "redirect:diplomes";
 	}
 	
-	@RequestMapping(value="/modifierDiplome")
-	public String update(Long id,Model  model){
-		Diplome dp=diplomeRepository.getOne(id);
-		model.addAttribute("diplome", dp);
-		return "editDiplomes";
+	@RequestMapping(value="/diplomes/{id}",method=RequestMethod.PUT)
+	public Diplome updateDiplome(@RequestBody Diplome e,@PathVariable ("id")Long id){
+		e.setId(id);
+		return diplomeRepository.saveAndFlush(e);
 	}
 	
-	
-	
-	@RequestMapping(value="/SaveDiplome",method=RequestMethod.POST)
-	public String saveDiplome(@Valid Diplome et,BindingResult bindingResult) throws Exception{
+		
+	@RequestMapping(value="/diplomes",method=RequestMethod.POST)
+	public Object saveDiplome(@RequestBody @Valid Diplome e,BindingResult bindingResult){
 		if(bindingResult.hasErrors()){
-			return "profiles";
+			Map<String, Object> errors=new HashMap<>();
+			errors.put("errors", true);
+			for(FieldError fe:bindingResult.getFieldErrors()){
+				errors.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return  errors;
 		}
-		diplomeRepository.save(et);
-		return "redirect:diplomes";
+		return diplomeRepository.save(e);
 	}
-
 	
+	@RequestMapping(value="/updateDiplome",method=RequestMethod.POST)
+	public String updateDiplome(@Valid Diplome dp,BindingResult bindingResult) throws Exception{
+		
+		
+		
+		 diplomeRepository.save(dp);
+			return "";	
+		
+	}	
 }

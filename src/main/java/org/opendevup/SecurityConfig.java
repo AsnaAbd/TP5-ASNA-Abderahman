@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/node_modules/bootstrap/dist/**","node_modules/angular-ui-router/**","/libs/css/**","/libs/js/**","/libs/jquery/**","/img/**","/index.html/**").permitAll()
+			.antMatchers("/node_modules/bootstrap/dist/**","/node_modules/angular-ui-router/**","/libs/css/**","/libs/js/**","/libs/jquery/**","/img/**","/index.html/**").permitAll()
 				.anyRequest()
 					.authenticated()
 						.and()
