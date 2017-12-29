@@ -24,9 +24,9 @@ public class TpSpringMvcApplication {
 	    /*etudaintRepository.save(new Etudiant("asna", "abderahman", "Développeur","abderahman.asna@etu.univ-amu.fr","M2 Génie Logiciel","Java JEE","picture","hh","hh"));
 		diplomeRepository.save(new Diplome("Master GL", "bac+5", "AS","WEB"));*/
 					
-		List<Etudiant> etds=etudaintRepository.findAll();
+		/*List<Etudiant> etds=etudaintRepository.findAll();
 		List<Diplome> dps=diplomeRepository.findAll();
 		etds.forEach(e->System.out.println(e.getNom()));
-		dps.forEach(e->System.out.println(e.getNomDiplome()));
+		dps.forEach(e->System.out.println(e.getNomDiplome()));*/
 	}
 }

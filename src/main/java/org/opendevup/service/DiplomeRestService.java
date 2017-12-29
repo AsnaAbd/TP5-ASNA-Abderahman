@@ -1,26 +1,17 @@
 package org.opendevup.service;
 
-import java.awt.PageAttributes.MediaType;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.opendevup.dao.DiplomeRepository;
 import org.opendevup.entities.Diplome;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,11 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@Secured(value={"ROLE_ADMIN"})
 public class DiplomeRestService {
 
 	@Autowired
 	private DiplomeRepository diplomeRepository;
-	@Secured(value={"ROLE_ADMIN","ROLE_SCOLARITE","ROLE_ETUDIANT"})
+
 	@RequestMapping(value="/chercherDiplomes",method=RequestMethod.GET)
 	public Page<Diplome> chercher(String mc,
 			@RequestParam(name="page",defaultValue="0")int page,
@@ -81,9 +73,6 @@ public class DiplomeRestService {
 	
 	@RequestMapping(value="/updateDiplome",method=RequestMethod.POST)
 	public String updateDiplome(@Valid Diplome dp,BindingResult bindingResult) throws Exception{
-		
-		
-		
 		 diplomeRepository.save(dp);
 			return "";	
 		

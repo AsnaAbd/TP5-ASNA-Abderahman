@@ -1,24 +1,21 @@
-var app=angular.module("app", []);
+var app=angular.module("app",[]);
 
-app.config(['$qProvider', function ($qProvider) {
-    $qProvider.errorOnUnhandledRejections(false);
-}]);
-/*myApp.config(function($stateProvider,$urlRouterProvider){
-	
-	$stateProvider.state('home',{
-		url:'/home',
-		templateUrl:'views/home.html',
-		controller:'HomeController'
+/*app.config(function($stateProvider){
+	$qProvider.errorOnUnhandledRejections(false);
+	$stateProvider.state('profiles',{
+		url:'/profiles',
+		templateUrl:'profiles.html',
+		controller:'etudiantController'
 	});
 	$stateProvider.state('chercherEtudiants',{
 		url:'/chercher',
 		templateUrl:'views/chercher.html',
-		controller:'MyController'
+		controller:'etudiantController'
 	});
-	$stateProvider.state('newEtudiant',{
-		url:'/newEtudiant',
-		templateUrl:'views/newEtudiant.html',
-		controller:'newEtudiantController'
+	$stateProvider.state('diplomes',{
+		url:'/diplomes',
+		templateUrl:'diplomess.html',
+		controller:'diplomeController'
 	});
 });*/
 
@@ -35,9 +32,7 @@ app.controller("diplomeController", function($scope,$http,$location) {
 	
 	$http.get("http://localhost:8092/listDiplomes")
 		.then(function(data) {
-//			$scope.pageDiplomes=data.data;
 			$scope.chercherDiplomes();
-			console.log("mydata",data.data);
 		}, function(err) {
 			console.log(err)
 		});	
@@ -47,7 +42,6 @@ app.controller("diplomeController", function($scope,$http,$location) {
 		.then(function(data) {
 		$scope.pageDiplomes=data.data.content;
 		$scope.pages=new Array(data.data.totalPages);
-		console.log("chercherDiplomes",$scope.pageDiplomes);
 		}, function(err) {
 		console.log(err)
 		});
@@ -56,7 +50,6 @@ app.controller("diplomeController", function($scope,$http,$location) {
 		$http.get("diplomes/"+id)
 		.then(function(data) {
 			$scope.diplome=data.data;
-			console.log("myDiplome",data.data)
 		})
 		$location.path("editDiplomes.html").replace();
 	};
@@ -65,7 +58,6 @@ app.controller("diplomeController", function($scope,$http,$location) {
 		.then(function(data) {
 		if(!data.data.errors){
 			$scope.diplome=data.data;
-			console.log('delete',data);
 			$scope.errors=null;
 			$scope.mode.value="confirm";
 		}else {
@@ -105,20 +97,12 @@ app.controller("diplomeController", function($scope,$http,$location) {
 			$scope.diplome=data.data;
 			$scope.errors=null;
 			$scope.mode.value="confirm";
-			// $route.reload();
 		}else {
 			$scope.errors=data.data;
 			$scope.diplome=null;
 		}
 		
 		});
-	};
-	$scope.clearForm = function (){
-		console.log("mon test",$scope.diplome);
-	    $scope.diplome.description = "";
-	    $scope.diplome.nomdiplome = "";
-	    $scope.diplome.niveau = "";
-	    $scope.diplome.specialite = "";
 	};
 });
 
@@ -157,8 +141,6 @@ app.controller("etudiantController", function($scope,$http,$location) {
 	$scope.fruits = ['apple', 'orange', 'pear', 'naartjie'];
 	$http.get("http://localhost:8092/listEtudiants")
 		.then(function(data) {
-			/*$scope.pageEtudiants=data.data;
-			console.log('mystudent',data.data)*/
 			$scope.chercherEtudiants();
 		}, function(err) {
 			console.log(err)
@@ -169,7 +151,6 @@ app.controller("etudiantController", function($scope,$http,$location) {
 		.then(function(data) {
 		$scope.pageEtudiants=data.data.content;
 		$scope.pages=new Array(data.data.totalPages);
-		console.log("chercherEtudiants",$scope.pageEtudiants);
 		}, function(err) {
 		console.log(err)
 		});
@@ -178,7 +159,6 @@ app.controller("etudiantController", function($scope,$http,$location) {
 		$http.get("etudiants/"+id)
 		.then(function(data) {
 			$scope.etudiant=data.data;
-			console.log("myStudent",data.data)
 		})
 		$location.path("editProfil.html").replace();
 	};
@@ -187,7 +167,6 @@ app.controller("etudiantController", function($scope,$http,$location) {
 		.then(function(data) {
 		if(!data.data.errors){
 			$scope.etudiant=data.data;
-			console.log('delete',data);
 			$scope.errors=null;
 			$scope.mode.value="confirm";
 		}else {
@@ -202,7 +181,6 @@ app.controller("etudiantController", function($scope,$http,$location) {
 			if(!data.data.errors){
 				$scope.etudiant=data.data;
 				$scope.errors=null;
-				// $scope.mode.value="confirm";
 			}else {
 				$scope.errors=data.data;
 				$scope.etudiant=null;
